@@ -31,7 +31,8 @@
             "pages": [
               "organizador/Primeros-pasos",
               "organizador/Creación-de-Eventos",
-              "organizador/Agregar-Metodo-de-Pago",
+              "organizador/Agregar-Metodo-de-Cobro",
+              "organizador/Facturación",
               "organizador/Agregar-Ubicaciones"
             ]
           }
