@@ -30,11 +30,29 @@
             "group": "Empieza en Sijalo Organizador",
             "pages": [
               "organizador/Primeros-pasos",
-              "organizador/Creación-de-Eventos",
+              "organizador/Creación-de-Eventos"
+
+            ]
+          },
+          {
+            "group": "Conoce el menu",
+            "pages": [
+
+              "organizador/Dashboard",
+              "organizador/Informes",
+              "organizador/Eventos",
+              "organizador/Facturación"
+            ]
+          },
+          {
+            "group": "Agregar",
+            "pages": [
               "organizador/Agregar-Metodo-de-Cobro",
-              "organizador/Facturación",
+              "organizador/Agregar-Productos",
               "organizador/Agregar-Ubicaciones"
             ]
+
+            
           }
         ]
       }
