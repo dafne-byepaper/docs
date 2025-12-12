@@ -41,12 +41,15 @@
               "organizador/Dashboard",
               "organizador/Informes",
               "organizador/Eventos",
+              "organizador/Descuentos",
               "organizador/Facturación"
             ]
           },
           {
             "group": "Agregar",
             "pages": [
+              "organizador/Agregar-Descuentos",
+              "organizador/Agregar-Miembros",
               "organizador/Agregar-Metodo-de-Cobro",
               "organizador/Agregar-Productos",
               "organizador/Agregar-Ubicaciones"
