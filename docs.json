@@ -42,6 +42,7 @@
               "organizador/Informes",
               "organizador/Eventos",
               "organizador/Descuentos",
+              "organizador/Patrocinadores",
               "organizador/Facturación"
             ]
           },
