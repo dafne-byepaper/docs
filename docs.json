@@ -27,7 +27,7 @@
         "tab": "Organizador",
         "groups": [
           {
-            "group": "Empieza en Sijalo Organizador",
+            "group": "Empieza en SiJalo Organizador",
             "pages": [
               "organizador/Primeros-pasos",
               "organizador/Creación-de-Eventos"
@@ -52,7 +52,8 @@
               "organizador/Agregar-Miembros",
               "organizador/Agregar-Metodo-de-Cobro",
               "organizador/Agregar-Productos",
-              "organizador/Agregar-Ubicaciones"
+              "organizador/Agregar-Ubicaciones",
+              "organizador/Agregar-Patrocinadores"
             ]
 
             
