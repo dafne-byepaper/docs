@@ -16,9 +16,7 @@
           {
             "group": "Empieza con SiJalo",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "index"
             ]
           }
         ]
@@ -35,7 +33,7 @@
             ]
           },
           {
-            "group": "Conoce el menu",
+            "group": "Conoce el menú",
             "pages": [
 
               "organizador/Dashboard",
@@ -43,7 +41,7 @@
               "organizador/Eventos",
               "organizador/Descuentos",
               "organizador/Patrocinadores",
-              "organizador/Facturación",
+              "organizador/Cobranza",
               "organizador/Configuración"
             ]
           },
@@ -54,7 +52,7 @@
               "organizador/Agregar-Miembros",
               "organizador/Agregar-Metodo-de-Cobro",
               "organizador/Agregar-Productos",
-              "organizador/Agregar-Ubicaciones",
+              "organizador/Agregar-ubicaciones",
               "organizador/Agregar-Patrocinadores"
             ]
 
