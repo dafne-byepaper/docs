@@ -15,7 +15,17 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
         
     </Step>
 
-    <Step title="Completar información">
+    <Step title = "Seleccionar si el evento a crear es Individual o en Equipos">
+        <Frame>
+            <img src="../public/TiposDeEventos.png" alt = "imagén de ubicación para seleccionar el Tipo de Evento"></img>
+        </Frame>
+         
+    </Step>
+
+    <Step title="¿Qué datos necesitamos para cada tipo de Evento?">
+
+    ### En caso de haber seleccionado 'Evento por Equipo' proporcione los siguientes datos en la secciones correspondientes
+
     <AccordionGroup>
         <Accordion
             title="Información General">
@@ -40,74 +50,76 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
         </Accordion>
 
         <Accordion
-            title="Disciplinas y Categorías">
-            ### Dentro de nuestros eventos se permite la creación de Disciplinas y Categorías
-            ---
-            #### Categorías
+            title="Configuración de Equipos">
 
-            Cada evento cuenta con categorías basadas en edad, género y otras características. Puedes crear categorías manualmente o usar nuestro generador automático.
-            #### Disciplinas
-            Cada evento cuenta con la posibilidad de tener una o varias disciplinas para facilitar la organización del Evento.
+            ### Define las reglas y límites para los equipos participantes
+
+            - Tamaño Mínimo de Equipo
+            - Tamaño Máximo de Equipo
+            
+            ### Opciones de Equipo
+
+            - Permitir que los equipos esten incompletos: Sirve para que los equipos puedan participar sin alcanzar el mínimo de integrantes.
+            - Capitán requerido: Sirve para designar a un capitán responsable
+            - Permitir cambios de equipo: Los participantes del equipo podrán cambiar de equipo después del reigstro
+
+        </Accordion>
+
+        <Accordion
+            title="Categorías">
+            ### Aquí podras crear las diferentes categorías o divisiones para tu evento.
+            
+             <Steps>
+                <Step title="Agregar Nueva Categoría">
+
+                 ### Para Agregar una Nueva Categoría necesitar proporcionar los siguientes datos.   
+                - Nombre de la Categoría
+                - Descripción
+                - Tipo de Equipo: Mixto, Masculino, Femenino u otro.
+                - Mínimo de Integrantes
+                - Máximo de Integrantes
+                    
+                </Step>
+                <Step title="Hacer click sobre el botón de Agregar Categoría">
+
+                    Esto Creara una nueva categoría con los dato proporcionados y podras verla en la sección de Categorías Creadas.
+                    
+                    <Frame>
+                        <img src="../public/CategoríaVaronil.png" alt = "imagén de ubicación para seleccionar el Tipo de Evento"></img>
+                    </Frame>
+
+                    
+
+                </Step>
+             </Steps>
+
             
         </Accordion>
 
          <Accordion
             title="Productos">
-            ### Configuración de Productos
-            En cada evento puedes vender productos como:
-            - Boletos ( ej. Básico, VIP, etc)
-            - Mercancía ( Playeras, Sudaderas, etc)
-            - Servicio ( Transporte, Comida, etc)
-            - Otros
 
-            ### ¿Cómo crear un producto?
-
-            Existen 2 maneras de crear un producto la primera es directamente en la creación del evento en la parte 3 "Productos" y la segunda es mediante la sección "Productos" que se encuentra en el menú.
-
-            <Note>
-                Si quieres aprender cómo crear un producto desde la sección "Productos" Dirígete a "Agregar Productos" en la documentación de SiJalo
-            </Note>
+            ### Aquí podras definir los precios y tipos de inscripciones para tu evento 
 
             <Steps>
-                <Step title="Hacer Click sobre 'Añadir Producto'. ">
-
-                <Frame>
-                    <img src="../public/addproduct.png" alt="Imagen de agregar producto"></img>
-                </Frame>
-                    
+                <Step title= "Datos necesarios por producto">
+                    - Nombre del producto
+                    - Precio
+                    - Moneda : MXN, USD
+                    - Descripción del producto
+                    - Precio por persona: si esta opción esta desactivada el Precio será para por equipo completo
+                    - inventario
                 </Step>
-                <Step title="Proporcionar los datos del producto">
-                - Nombre del Producto
-                - descripción del producto
-                - Tipo de Producto
-                - Visibilidad
-                - Precio 
-                - Moneda
-                - Inventario
-                - Límite por Usuario
-                - Mínimo por Orden
-                - Máximo por Orden
-                - Producto obligatorio
-                - Producto Activo
-                - Seguimiento del inventario
+                <Step title="Si quieres agregar mas productos puedes hacer click sobre el botón Agregar Otro Producto">
                     
-                </Step>
 
-                <Step title="Hacer Click sobre 'Añadir Producto'. ">
+                    <Frame>
+                        <img src="../public/AgregarOtroProducto.png" alt = "imagén del botón de Agregar Otro Producto"></img>
+                    </Frame>
 
-                <Frame>
-                    <img src="../public/addproduct2.png" alt="Imagen de agregar producto"></img>
-                </Frame>
-                    
                 </Step>
             </Steps>
-    
-            ### Vincular Productos a categorías
-            Una vez creado el producto puedes escoger que personas son elegibles para poder adquirir el producto creado.
-
-            <Frame>
-                    <img src="../public/VincularProduct.png" alt="Imagen de agregar producto"></img>
-                </Frame>
+            
             
             
         </Accordion>
@@ -117,11 +129,10 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
 
             ### Datos solicitados para las Inscripciones
 
-            - Fecha de Apertura de Registro
-            - Fecha de Cierre de Registro
-            - Límite de Inscripciones por Persona 
-            - Capacidad Máxima General
-            - Si el Evento que creaste contiene categorias seleccionar la capacidad máxima por cada categoría creada
+            - Fecha de Apertura de Inscripciones
+            - Fecha de Cierre de Inscripciones
+            - Máximo de Equipos por Categoría -- Dejar vacío para no tener Límite 
+            - Máximo Total de Equipos -- Dejar vacío para no tener Límite
 
             ### Al finalizar hacer click en el botón "Siguiente"
 
@@ -136,19 +147,16 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
         </Accordion>
 
         <Accordion
-            title="Branding y Descripción">
+            title="Branding">
 
-            ### Datos solicitados
-            - Descripción detallada del evento
-            - Perfil de Branding
 
-            ### Perfil de Branding
+            ### Branding y Descripción
 
             <Tip>
                 Si no cuentas con un perfil que te agrade te recomendamos crear uno nuevo
             </Tip>
 
-            ### Crear un Perfil de Marca 
+            ### Crear un nuevo Perfil
             <Steps>
                 <Step title="Hacer click en el cuadro de 'Crear nuevo perfil'">
                 <Frame>
@@ -175,7 +183,15 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
                 <Warning>
                     Al crear un nuevo perfil se reemplazará el perfil ya existente
                 </Warning>
-                    ### Una vez creado hacer click en el botón "Siguiente"
+                    
+                </Step>
+
+            </Steps>
+            
+            ### Descripción Detallada  del evento
+            - Escribe una descripción completa de tu evento
+
+            ### Una vez proporcionado los datos hacer click en el botón "Siguiente"
                     
 
                     <Frame>
@@ -185,10 +201,6 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
                     <Note>
                         Antes de hacer click verifica que toda la información proporcionada sea correcta.
                     </Note>
-                </Step>
-
-            </Steps>
-            
 
         </Accordion>
 
@@ -198,14 +210,13 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
             ### Datos a Verificar
 
             - Nombre del Evento
-            - Organizador
-            - Fechas
-            - Horarios
+            - Fecha de finalización
             - Ubicación
             - Tipo de Evento
-            - Descripción
-            - Inscripciones
+            - Configuración de equipos
+            - Categorías
             - Productos
+
 
             <Warning>
                 Es importante que en esta parte se verifique que toda la información es correcta ya que una vez creada no podrá editar algunas partes
@@ -232,6 +243,232 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
 
     </AccordionGroup>
         
-    </Step>
+
+
+
+
+
+    ### En caso de haber seleccionado 'Evento Individual' proporcione los siguientes datos en la secciones correspondientes"
+
+        <AccordionGroup>
+            <Accordion
+                title="Información General">
+                ## Datos requeridos
+                - Nombre del Evento: El título oficial que aparecerá en la cartelera y boletos.
+                - Fecha de Inicio del Evento: Cuándo deben presentarse los asistentes para el comienzo de la actividad.
+                - Hora de Inicio: Solo es necesaria si tu evento dura más de un día (ej. un festival de fin de semana).
+                - Fecha de Término del Evento -- Dejar en blanco si solo dura un día
+                - Hora de Finalización : Indica a qué hora concluyen las actividades para logística del usuario.
+                - Tipo de Evento: Define la categoría (deportivo, musical, cultural) para ayudar en los filtros de búsqueda.
+                - Sitio Web del Evento: Enlace a tu página oficial o redes sociales para dar más contexto al usuario. --Opcional 
+                - Visibilidad del evento: Público: Aparece en el buscador de SiJalo. Privado: Solo accesible por el panel de organizador.
+                - Ubicación del evento: El lugar físico donde se llevará a cabo. Recuerda que debe estar previamente registrada en tu catálogo de ubicaciones.
+                <Tip>
+                    Si aún no cuentas con ubicaciones registradas puedes revisar el contenido de "Agregar Ubicaciones"
+                </Tip>
+
+                Una vez proporcionados los datos favor de hacer click en el botón "Siguiente"
+
+
+                
+            </Accordion>
+
+            <Accordion
+                title="Disciplinas y Categorías">
+                ### Dentro de nuestros eventos se permite la creación de Disciplinas y Categorías
+                ---
+                #### Categorías
+
+                Cada evento cuenta con categorías basadas en edad, género y otras características. Puedes crear categorías manualmente o usar nuestro generador automático.
+                #### Disciplinas
+                Cada evento cuenta con la posibilidad de tener una o varias disciplinas para facilitar la organización del Evento.
+                
+            </Accordion>
+
+            <Accordion
+                title="Productos">
+                ### Configuración de Productos
+                En cada evento puedes vender productos como:
+                - Boletos ( ej. Básico, VIP, etc)
+                - Mercancía ( Playeras, Sudaderas, etc)
+                - Servicio ( Transporte, Comida, etc)
+                - Otros
+
+                ### ¿Cómo crear un producto?
+
+                Existen 2 maneras de crear un producto la primera es directamente en la creación del evento en la parte 3 "Productos" y la segunda es mediante la sección "Productos" que se encuentra en el menú.
+
+                <Note>
+                    Si quieres aprender cómo crear un producto desde la sección "Productos" Dirígete a "Agregar Productos" en la documentación de SiJalo
+                </Note>
+
+                <Steps>
+                    <Step title="Hacer Click sobre 'Añadir Producto'. ">
+
+                    <Frame>
+                        <img src="../public/addproduct.png" alt="Imagen de agregar producto"></img>
+                    </Frame>
+                        
+                    </Step>
+                    <Step title="Proporcionar los datos del producto">
+                    - Nombre del Producto
+                    - descripción del producto
+                    - Tipo de Producto
+                    - Visibilidad
+                    - Precio 
+                    - Moneda
+                    - Inventario
+                    - Límite por Usuario
+                    - Mínimo por Orden
+                    - Máximo por Orden
+                    - Producto obligatorio
+                    - Producto Activo
+                    - Seguimiento del inventario
+                        
+                    </Step>
+
+                    <Step title="Hacer Click sobre 'Añadir Producto'. ">
+
+                    <Frame>
+                        <img src="../public/addproduct2.png" alt="Imagen de agregar producto"></img>
+                    </Frame>
+                        
+                    </Step>
+                </Steps>
+        
+                ### Vincular Productos a categorías
+                Una vez creado el producto puedes escoger que personas son elegibles para poder adquirir el producto creado.
+
+                <Frame>
+                        <img src="../public/VincularProduct.png" alt="Imagen de agregar producto"></img>
+                    </Frame>
+                
+                
+            </Accordion>
+
+            <Accordion
+                title="Inscripciones">
+
+                ### Datos solicitados para las Inscripciones
+
+                - Fecha de Apertura de Registro
+                - Fecha de Cierre de Registro
+                - Límite de Inscripciones por Persona 
+                - Capacidad Máxima General
+                - Si el Evento que creaste contiene categorias seleccionar la capacidad máxima por cada categoría creada
+
+                ### Al finalizar hacer click en el botón "Siguiente"
+
+            
+            
+            <Frame> <img src = "../public/siguienteinscrip.png" alt = "Imagen de siguiente"/> </Frame>
+
+                <Warning>
+                    Verificar la Capacidad Máxima General permitida por el evento si este mismo cuenta con un Límite antes de darle click al botón "Siguiente"
+                </Warning>
+
+            </Accordion>
+
+            <Accordion
+                title="Branding y Descripción">
+
+                ### Datos solicitados
+                - Descripción detallada del evento
+                - Perfil de Branding
+
+                ### Perfil de Branding
+
+                <Tip>
+                    Si no cuentas con un perfil que te agrade te recomendamos crear uno nuevo
+                </Tip>
+
+                ### Crear un Perfil de Marca 
+                <Steps>
+                    <Step title="Hacer click en el cuadro de 'Crear nuevo perfil'">
+                    <Frame>
+                        <img src="../public/SiJaloBranding.png" alt = "Imagen de crear un nuevo perfil"></img>
+                    </Frame>
+                        
+                    </Step>
+                    <Step title="Completar los datos del perfil de tu marca">
+                    - Nombre de la marca
+                    - Color primario de la marca
+                    - Color Secundario de la marca
+                    - URL del logo
+                    - Tipo de logo
+                    - URL del Banner
+                    - Tipo de Banner
+                        
+                    </Step>
+
+                    <Step title="Hacer click en el botón 'Crear Perfil'">
+                    <Frame>
+                        <img src="../public/CrearPerfil.png" alt = "Imagen de crear un nuevo perfil"></img>
+                    </Frame>
+
+                    <Warning>
+                        Al crear un nuevo perfil se reemplazará el perfil ya existente
+                    </Warning>
+                        ### Una vez creado hacer click en el botón "Siguiente"
+                        
+
+                        <Frame>
+                            <img src="../public/NextButtonBranding.png" alt = "botón de Siguiente"></img>
+                        </Frame>
+
+                        <Note>
+                            Antes de hacer click verifica que toda la información proporcionada sea correcta.
+                        </Note>
+                    </Step>
+
+                </Steps>
+                
+
+            </Accordion>
+
+            <Accordion
+                title="Vista Previa">
+                
+                ### Datos a Verificar
+
+                - Nombre del Evento
+                - Organizador
+                - Fechas
+                - Horarios
+                - Ubicación
+                - Tipo de Evento
+                - Descripción
+                - Inscripciones
+                - Productos
+
+                <Warning>
+                    Es importante que en esta parte se verifique que toda la información es correcta ya que una vez creada no podrá editar algunas partes
+                </Warning>
+
+                ##### Una vez verificados los datos del evento puede tanto guardarlo como borrador o directamente publicar el Evento
+
+                <Frame>
+                    <img src="../public/PublicarEvento.png" alt = "Publicar Evento Imagen"/>
+                </Frame>
+
+                <Note>
+                    Solo podrá publicar un Evento si ya firmó el CONTRATO DE LICENCIAMIENTO Y PRESTACIÓN DE SERVICIOS TECNOLÓGICOS.
+                </Note>
+
+
+
+
+
+            </Accordion>
+
+
+
+
+        </AccordionGroup>
+</Step>
+            
+
+
+
 
 </Steps>
