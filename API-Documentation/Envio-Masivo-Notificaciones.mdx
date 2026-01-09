@@ -1,0 +1,256 @@
+---
+title: "API de Envío Masivo de Notificaciones"
+description: "Envía notificaciones SMS y WhatsApp a múltiples destinatarios simultáneamente."
+---
+# ¿Qué hace?
+<Info>
+Este endpoint permite **enviar notificaciones masivas** por SMS y WhatsApp a múltiples destinatarios.  
+Soporta plantillas personalizadas, programación de envíos y seguimiento de entregas.
+</Info>
+---
+## Endpoint
+```http
+POST /api/v1/notifications/bulk
+```
+---
+## Headers requeridos
+```json
+{
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+}
+```
+---
+## Payload (Body)
+```json
+{
+  "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+  "campaign_name": "Recordatorio de Evento - Maratón CDMX 2025",
+  "notification_type": "whatsapp",
+  "template_type": "event_reminder",
+  "recipients": [
+    {
+      "phone": "+521234567890",
+      "participant_name": "Juan Pérez",
+      "event_name": "Maratón CDMX 2025",
+      "event_date": "2025-03-15",
+      "event_time": "07:00",
+      "venue_name": "Monumento a la Revolución",
+      "bib_number": "1234",
+      "ticket_url": "https://sijalo.mx/tickets/abc123"
+    },
+    {
+      "phone": "+522345678901",
+      "participant_name": "María García",
+      "event_name": "Maratón CDMX 2025",
+      "event_date": "2025-03-15",
+      "event_time": "07:00",
+      "venue_name": "Monumento a la Revolución",
+      "bib_number": "5678",
+      "ticket_url": "https://sijalo.mx/tickets/def456"
+    }
+  ],
+  "schedule_time": "2025-03-14T18:00:00Z",
+  "batch_size": 10,
+  "delay_between_batches": 1000,
+  "retry_failed": true,
+  "max_retries": 3
+}
+```
+### Campos obligatorios
+- **organization_id** (UUID) – ID de la organización  
+- **campaign_name** (string) – Nombre de la campaña  
+- **notification_type** (string) – Tipo: sms, whatsapp  
+- **recipients** (array) – Lista de destinatarios  
+
+### Campos opcionales
+- **template_type** (string) – Tipo de plantilla: event_reminder, ticket_confirmation, payment_success, custom  
+- **schedule_time** (string) – Fecha/hora programada (ISO 8601)  
+- **batch_size** (integer) – Tamaño de lote (default: 10, max: 50)  
+- **delay_between_batches** (integer) – Delay entre lotes en ms (default: 1000)  
+- **retry_failed** (boolean) – Reintentar envíos fallidos (default: true)  
+- **max_retries** (integer) – Máximo de reintentos (default: 3)  
+- **custom_message** (string) – Mensaje personalizado (si template_type = custom)  
+- **media_url** (string) – URL de media para WhatsApp  
+
+### Campos del destinatario
+- **phone** (string) – Teléfono en formato E.164 (+52XXXXXXXXXX)  
+- **participant_name** (string) – Nombre del participante  
+- **event_name** (string) – Nombre del evento  
+- **event_date** (string) – Fecha del evento  
+- **event_time** (string) – Hora del evento  
+- **venue_name** (string) – Nombre del lugar  
+- **bib_number** (string) – Número de dorsal  
+- **ticket_url** (string) – URL del boleto  
+
+---
+## Responses
+### ✅ Success controlados
+#### 200 · OK
+Campaña creada y programada correctamente.
+```json
+{
+  "campaign": {
+    "id": "8a9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d",
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "campaign_name": "Recordatorio de Evento - Maratón CDMX 2025",
+    "notification_type": "whatsapp",
+    "template_type": "event_reminder",
+    "status": "scheduled",
+    "total_recipients": 2,
+    "schedule_time": "2025-03-14T18:00:00Z",
+    "batch_size": 10,
+    "delay_between_batches": 1000,
+    "created_at": "2025-01-09T12:00:00Z"
+  },
+  "recipients": [
+    {
+      "phone": "+521234567890",
+      "status": "pending",
+      "message_id": null
+    },
+    {
+      "phone": "+522345678901",
+      "status": "pending",
+      "message_id": null
+    }
+  ]
+}
+```
+---
+#### 202 · Accepted
+Campaña aceptada y procesándose inmediatamente.
+```json
+{
+  "campaign": {
+    "id": "8a9b0c1d-2e3f-4a5b-6c7d-8e9f0a1b2c3d",
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "campaign_name": "Recordatorio de Evento - Maratón CDMX 2025",
+    "notification_type": "whatsapp",
+    "template_type": "event_reminder",
+    "status": "processing",
+    "total_recipients": 2,
+    "started_at": "2025-01-09T12:00:00Z"
+  },
+  "processing_info": {
+    "estimated_completion": "2025-01-09T12:02:00Z",
+    "current_batch": 1,
+    "total_batches": 1
+  }
+}
+```
+---
+### ❌ Errores controlados
+#### 400 · Bad Request
+Faltan campos obligatorios o datos inválidos.
+```json
+{
+  "status": "error",
+  "code": 400,
+  "message": "Missing required fields: organization_id, campaign_name, notification_type, recipients"
+}
+```
+---
+#### 401 · Unauthorized
+Token de autenticación inválido o ausente.
+```json
+{
+  "status": "error",
+  "code": 401,
+  "message": "Invalid or missing authentication token"
+}
+```
+---
+#### 403 · Forbidden
+Usuario no tiene permisos para la organización.
+```json
+{
+  "status": "error",
+  "code": 403,
+  "message": "Access denied: User is not a member of this organization"
+}
+```
+---
+#### 409 · Conflict
+Ya existe una campaña con el mismo nombre.
+```json
+{
+  "status": "error",
+  "code": 409,
+  "message": "Campaign name already exists: Recordatorio de Evento - Maratón CDMX 2025"
+}
+```
+---
+#### 422 · Unprocessable Entity
+Formato de teléfonos inválido o datos de destinatarios incorrectos.
+```json
+{
+  "status": "error",
+  "code": 422,
+  "message": "Invalid phone format: +52123456789 must be in E.164 format (+52XXXXXXXXXX)",
+  "details": {
+    "invalid_phones": ["+52123456789"],
+    "missing_fields": ["participant_name"]
+  }
+}
+```
+---
+#### 429 · Too Many Requests
+Límite de velocidad excedido.
+```json
+{
+  "status": "error",
+  "code": 429,
+  "message": "Rate limit exceeded: Maximum 1000 recipients per hour",
+  "retry_after": 3600
+}
+```
+---
+#### 500 · Internal Server Error
+Error inesperado en el servidor.
+```json
+{
+  "status": "error",
+  "code": 500,
+  "message": "Internal server error"
+}
+```
+---
+## Estados de campaña
+- **scheduled** – Programada para envío futuro  
+- **processing** – Enviándose actualmente  
+- **completed** – Todos los envíos procesados  
+- **failed** – La campaña falló completamente  
+- **cancelled** – Cancelada manualmente  
+
+## Estados de destinatarios
+- **pending** – Esperando envío  
+- **sent** – Enviado al proveedor  
+- **delivered** – Entregado exitosamente  
+- **failed** – Falló el envío  
+- **retrying** – Reintentando envío  
+
+---
+## Cómo usarlo
+<Steps>
+  <Step title="1 · Prepara destinatarios" icon="users" iconType="solid">
+    Crea una lista con teléfonos válidos y datos personalizados.
+  </Step>
+  <Step title="2 · Configura campaña" icon="settings" iconType="solid">
+    Define nombre, tipo de notificación y plantilla.
+  </Step>
+  <Step title="3 · Envía request" icon="send" iconType="solid">
+    Llama al <strong>POST /api/v1/notifications/bulk</strong> con los datos.
+  </Step>
+  <Step title="4 · Monitorea progreso" icon="activity" iconType="solid">
+    Usa el ID de campaña para verificar el estado de envíos.
+  </Step>
+</Steps>
+---
+<Tip>
+Usa <strong>batch_size</strong> pequeño (5-10) para pruebas y aumenta gradualmente hasta 50 para producción.
+</Tip>
+---
+<Warning>
+Los números de teléfono deben estar en formato E.164 (+52XXXXXXXXXX). Los números incorrectos causarán fallos en el envío.
+</Warning>

@@ -1,0 +1,225 @@
+---
+title: "API de Inserción de Resultados"
+description: "Registra y gestiona resultados de eventos deportivos y competencias."
+---
+# ¿Qué hace?
+<Info>
+Este endpoint permite **registrar resultados de participantes** en eventos deportivos, competencias o carreras.  
+Soporta tiempos, posiciones, categorías y datos adicionales para diferentes tipos de eventos.
+</Info>
+---
+## Endpoint
+```http
+POST /api/v1/event-results
+```
+---
+## Headers requeridos
+```json
+{
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+}
+```
+---
+## Payload (Body)
+```json
+{
+  "event_series_id": "6a4e8de4-abe8-48b2-b486-48de9ba9aac2",
+  "event_id": "b5c7f2e1-9d8a-4c3e-8f9a-2b4c6d8e0f1a",
+  "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+  "participant_name": "Juan Pérez",
+  "participant_email": "juan.perez@email.com",
+  "participant_bib_number": "1234",
+  "position": 1,
+  "category_position": 1,
+  "category_name": "M30-34",
+  "finish_time": "01:25:30.500",
+  "chip_time": "01:25:28.200",
+  "gun_time": "01:25:35.100",
+  "split_times": [
+    {"name": "5K", "time": "00:25:30"},
+    {"name": "10K", "time": "00:52:15"},
+    {"name": "15K", "time": "01:18:45"}
+  ],
+  "additional_data": {
+    "pace": "5:30/km",
+    "speed": "10.9 km/h",
+    "age_group": "M30-34"
+  },
+  "status": "official"
+}
+```
+### Campos obligatorios
+- **event_series_id** (UUID) – ID de la serie del evento  
+- **organization_id** (UUID) – ID de la organización  
+- **participant_name** (string) – Nombre del participante  
+- **participant_bib_number** (string) – Número de dorsal/bib  
+
+### Campos opcionales
+- **event_id** (UUID) – ID del evento específico  
+- **participant_email** (string) – Email del participante  
+- **position** (integer) – Posición general  
+- **category_position** (integer) – Posición en categoría  
+- **category_name** (string) – Nombre de la categoría  
+- **finish_time** (string) – Tiempo de finalización (HH:MM:SS.ms)  
+- **chip_time** (string) – Tiempo con chip (HH:MM:SS.ms)  
+- **gun_time** (string) – Tiempo de pistola (HH:MM:SS.ms)  
+- **split_times** (array) – Tiempos parciales  
+- **additional_data** (object) – Datos adicionales del deporte  
+- **status** (string) – Estado: official, unofficial, disqualified, dnf, dns  
+- **user_id** (UUID) – ID del usuario (si está registrado)  
+- **created_by** (UUID) – ID del usuario que crea el registro  
+
+---
+## Responses
+### ✅ Success controlados
+#### 200 · OK
+Resultado creado correctamente.
+```json
+{
+  "result": {
+    "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "event_series_id": "6a4e8de4-abe8-48b2-b486-48de9ba9aac2",
+    "event_id": "b5c7f2e1-9d8a-4c3e-8f9a-2b4c6d8e0f1a",
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "participant_name": "Juan Pérez",
+    "participant_email": "juan.perez@email.com",
+    "participant_bib_number": "1234",
+    "position": 1,
+    "category_position": 1,
+    "category_name": "M30-34",
+    "finish_time": "01:25:30.500",
+    "chip_time": "01:25:28.200",
+    "gun_time": "01:25:35.100",
+    "split_times": [
+      {"name": "5K", "time": "00:25:30"},
+      {"name": "10K", "time": "00:52:15"},
+      {"name": "15K", "time": "01:18:45"}
+    ],
+    "additional_data": {
+      "pace": "5:30/km",
+      "speed": "10.9 km/h",
+      "age_group": "M30-34"
+    },
+    "status": "official",
+    "created_at": "2025-01-09T12:00:00Z",
+    "updated_at": "2025-01-09T12:00:00Z"
+  }
+}
+```
+---
+#### 201 · Created
+Resultado creado con advertencias (ej: datos opcionales faltantes).
+```json
+{
+  "result": {
+    "id": "7a8b9c0d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+    "event_series_id": "6a4e8de4-abe8-48b2-b486-48de9ba9aac2",
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "participant_name": "Juan Pérez",
+    "participant_bib_number": "1234",
+    "status": "official",
+    "created_at": "2025-01-09T12:00:00Z",
+    "updated_at": "2025-01-09T12:00:00Z"
+  },
+  "warnings": [
+    "participant_email no proporcionado",
+    "position no proporcionado"
+  ]
+}
+```
+---
+### ❌ Errores controlados
+#### 400 · Bad Request
+Faltan campos obligatorios o datos inválidos.
+```json
+{
+  "status": "error",
+  "code": 400,
+  "message": "Missing required fields: event_series_id, organization_id, participant_name, participant_bib_number"
+}
+```
+---
+#### 401 · Unauthorized
+Token de autenticación inválido o ausente.
+```json
+{
+  "status": "error",
+  "code": 401,
+  "message": "Invalid or missing authentication token"
+}
+```
+---
+#### 403 · Forbidden
+Usuario no tiene permisos para la organización.
+```json
+{
+  "status": "error",
+  "code": 403,
+  "message": "Access denied: User is not a member of this organization"
+}
+```
+---
+#### 404 · Not Found
+El evento u organización no existe.
+```json
+{
+  "status": "error",
+  "code": 404,
+  "message": "Event series not found"
+}
+```
+---
+#### 409 · Conflict
+Ya existe un resultado con el mismo número de dorsal para este evento.
+```json
+{
+  "status": "error",
+  "code": 409,
+  "message": "Duplicate bib number: 1234 already exists for this event"
+}
+```
+---
+#### 422 · Unprocessable Entity
+Formato de datos inválido (ej: tiempo mal formateado).
+```json
+{
+  "status": "error",
+  "code": 422,
+  "message": "Invalid time format: finish_time must be in HH:MM:SS.ms format"
+}
+```
+---
+#### 500 · Internal Server Error
+Error inesperado en el servidor.
+```json
+{
+  "status": "error",
+  "code": 500,
+  "message": "Internal server error"
+}
+```
+---
+## Cómo usarlo
+<Steps>
+  <Step title="1 · Prepara los datos" icon="database" iconType="solid">
+    Recopila la información del participante, tiempos y posición.
+  </Step>
+  <Step title="2 · Valida el formato" icon="check" iconType="solid">
+    Asegura que los tiempos sigan el formato <strong>HH:MM:SS.ms</strong>.
+  </Step>
+  <Step title="3 · Envía el request" icon="send" iconType="solid">
+    Llama al <strong>POST /api/v1/event-results</strong> con autenticación válida.
+  </Step>
+  <Step title="4 · Procesa la respuesta" icon="file-text" iconType="solid">
+    Usa el ID del resultado para consultas futuras o actualizaciones.
+  </Step>
+</Steps>
+---
+<Tip>
+Usa <strong>additional_data</strong> para almacenar información específica del deporte como ritmo, velocidad, edad, género, etc.
+</Tip>
+---
+<Warning>
+El número de dorsal (<strong>participant_bib_number</strong>) debe ser único por evento. Si intentas duplicarlo, recibirás un error 409.
+</Warning>

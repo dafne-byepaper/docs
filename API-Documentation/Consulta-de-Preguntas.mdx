@@ -1,0 +1,127 @@
+---
+title: "Q&A API"
+description: "Registra y gestiona preguntas y respuestas asociadas a un usuario y organización."
+---
+# ¿Qué hace?
+<Info>
+Este endpoint permite **crear una pregunta y su respuesta** asociada a un usuario y una organización.  
+Puede usarse para FAQs, asistentes internos, bases de conocimiento o respuestas automáticas.
+</Info>
+---
+## Endpoint
+```http
+POST /api/v1/qa
+```
+---
+## Headers requeridos
+```json
+{
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+}
+```
+---
+## Payload (Body)
+```json
+{
+  "question": "Cuando empieza la competencia??",
+  "answer": "Hola la competencia general empieza el dia 12 de junio a las 2:00 pm",
+  "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+  "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1"
+}
+```
+### Campos obligatorios
+- **question** (string) – Pregunta a registrar  
+- **answer** (string) – Respuesta asociada  
+- **user_id** (UUID) – Identificador del usuario  
+- **organization_id** (UUID) – Identificador de la organización  
+---
+## Responses
+### ✅ Success controlados
+#### 200 · OK
+Pregunta y respuesta creadas correctamente y visibles públicamente.
+```json
+{
+  "question": {
+    "id": "6a4e8de4-abe8-48b2-b486-48de9ba9aac2",
+    "question": "Cuando empieza la competencia??",
+    "answer": "Hola la competencia general empieza el dia 12 de junio a las 2:00 pm",
+    "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "is_public": true
+  }
+}
+```
+---
+#### 201 · Created (is_public = false)
+Pregunta creada correctamente pero no visible públicamente.
+```json
+{
+  "question": {
+    "id": "6a4e8de4-abe8-48b2-b486-48de9ba9aac2",
+    "question": "Cuando empieza la competencia??",
+    "answer": "Hola la competencia general empieza el dia 12 de junio a las 2:00 pm",
+    "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "is_public": false
+  }
+}
+```
+---
+### ❌ Errores controlados
+#### 406 · Not Acceptable
+Faltan campos obligatorios en el body.
+```json
+{
+  "status": "error",
+  "code": 406,
+  "message": "Missing required fields in request body"
+}
+```
+---
+#### 408 · Request Timeout / Invalid Organization
+El `organization_id` no es válido.
+```json
+{
+  "status": "error",
+  "code": 408,
+  "message": "Invalid organization_id"
+}
+```
+---
+#### 404 · Not Found
+El endpoint no existe o la URL es incorrecta.
+```json
+{
+  "status": "error",
+  "code": 404,
+  "message": "Endpoint not found"
+}
+```
+---
+#### 500 · Internal Server Error
+Error inesperado en el servidor.
+```json
+{
+  "status": "error",
+  "code": 500,
+  "message": "Internal server error"
+}
+```
+---
+## Cómo usarlo
+<Steps>
+  <Step title="1 · Construye la pregunta" icon="house" iconType="solid">
+    Define claramente la <strong>question</strong> y su <strong>answer</strong>.
+  </Step>
+  <Step title="2 · Envía el request" icon="check" iconType="solid">
+    Llama al <strong>POST /api/v1/qa</strong> con autenticación válida.
+  </Step>
+  <Step title="3 · Consume la respuesta" icon="database" iconType="solid">
+    Usa el objeto creado para mostrar FAQs, entrenar asistentes o responder usuarios.
+  </Step>
+</Steps>
+---
+<Tip>
+Usa <strong>is_public = false</strong> para validar contenido internamente antes de exponerlo a usuarios finales.
+</Tip>

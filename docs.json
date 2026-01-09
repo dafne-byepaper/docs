@@ -22,6 +22,21 @@
         ]
       },
       {
+        "tab": "API",
+        "groups": [
+          {
+            "group" : "Documentación de la API",
+            "pages": [
+              "API-Documentation/Consulta-de-Preguntas",
+              "API-Documentation/Insercion-de-Resultados",
+              "API-Documentation/Consulta-de-Resultados-API",
+              "API-Documentation/Envio-Masivo-Notificaciones",
+              "API-Documentation/Sistema-Preguntas-Frecuentes"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Organizador",
         "groups": [
           {

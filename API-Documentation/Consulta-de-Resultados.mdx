@@ -1,0 +1,34 @@
+---
+title: "FAQ Ingestion API"
+description: "Carga masiva de preguntas frecuentes desde servicios externos o bases de datos."
+---
+# ¿Qué hace?
+<Info>
+Este endpoint permite la **ingestión masiva de preguntas y respuestas** provenientes de una migración de base de datos o un servicio externo.  
+Es ideal para inicializar la base de conocimiento de una organización o sincronizar datos desde un CMS externo.
+</Info>
+---
+## Endpoint
+```http
+POST /api/v1/faqs/ingest
+```
+## Headers requeridos
+```json
+{
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+}
+```
+## Payload (Body)
+```json
+{
+  "faqs": [
+    {
+      "question": "Cuando empieza la competencia??",
+      "answer": "Hola la competencia general empieza el dia 12 de junio a las 2:00 pm",
+      "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+      "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1"
+    }
+  ]
+}
+```

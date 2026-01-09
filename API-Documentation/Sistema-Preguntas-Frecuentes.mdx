@@ -1,0 +1,323 @@
+---
+title: "API de Sistema de Preguntas Frecuentes"
+description: "Gestión completa de FAQs para bases de conocimiento y asistentes virtuales."
+---
+# ¿Qué hace?
+<Info>
+Este endpoint permite **gestionar preguntas frecuentes** con búsqueda inteligente, categorización y control de visibilidad.  
+Ideal para bases de conocimiento, asistentes virtuales y centros de ayuda.
+</Info>
+---
+## Endpoints
+
+### 1. Crear FAQ
+```http
+POST /api/v1/faqs
+```
+
+### 2. Consultar FAQs
+```http
+GET /api/v1/faqs
+```
+
+### 3. Actualizar FAQ
+```http
+PUT /api/v1/faqs/{id}
+```
+
+### 4. Eliminar FAQ
+```http
+DELETE /api/v1/faqs/{id}
+```
+
+### 5. Búsqueda inteligente
+```http
+GET /api/v1/faqs/search
+```
+
+---
+## Headers requeridos
+```json
+{
+  "Authorization": "Bearer <token>",
+  "Content-Type": "application/json"
+}
+```
+---
+## Payload (Body) - Crear FAQ
+```json
+{
+  "question": "¿Cómo puedo cambiar mi boleto a otra fecha?",
+  "answer": "Para cambiar tu boleto de fecha, sigue estos pasos: 1) Inicia sesión en tu cuenta. 2) Ve a 'Mis Boletos'. 3) Selecciona el evento y haz clic en 'Cambiar Fecha'. 4) Elige la nueva fecha disponible y completa el proceso. Nota: Aplican cargos por cambio y sujeto a disponibilidad.",
+  "category": "Cambios y Devoluciones",
+  "tags": ["cambios", "fechas", "boleto", "reembolso"],
+  "priority": "high",
+  "is_public": true,
+  "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+  "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+  "related_faqs": ["faq-123", "faq-456"],
+  "metadata": {
+    "event_types": ["conciertos", "deportes"],
+    "language": "es",
+    "target_audience": "compradores"
+  }
+}
+```
+### Campos obligatorios
+- **question** (string) – Pregunta clara y específica  
+- **answer** (string) – Respuesta detallada y útil  
+- **organization_id** (UUID) – ID de la organización  
+- **user_id** (UUID) – ID del usuario que crea la FAQ  
+
+### Campos opcionales
+- **category** (string) – Categoría para organización  
+- **tags** (array) – Etiquetas para búsqueda y filtrado  
+- **priority** (string) – Prioridad: low, medium, high, critical  
+- **is_public** (boolean) – Visibilidad pública (default: false)  
+- **related_faqs** (array) – IDs de FAQs relacionadas  
+- **metadata** (object) – Datos adicionales estructurados  
+
+---
+## Parámetros de Query - Consultar FAQs
+### Parámetros obligatorios
+- **organization_id** (UUID) – ID de la organización  
+
+### Parámetros opcionales de filtrado
+- **category** (string) – Filtrar por categoría  
+- **tags** (string) – Filtrar por etiquetas (separadas por comas)  
+- **priority** (string) – Filtrar por prioridad  
+- **is_public** (boolean) – Filtrar por visibilidad  
+- **user_id** (UUID) – Filtrar por usuario creador  
+
+### Parámetros de búsqueda
+- **search** (string) – Búsqueda en pregunta y respuesta  
+- **search_in** (string) – Dónde buscar: question, answer, both (default: both)  
+
+### Parámetros de ordenamiento
+- **sort_by** (string) – Campo: created_at, updated_at, priority, question  
+- **sort_order** (string) – Orden: asc, desc (default: desc)  
+
+### Parámetros de paginación
+- **page** (integer) – Número de página (default: 1)  
+- **limit** (integer) – Resultados por página (default: 20, max: 100)  
+
+---
+## Ejemplos de uso
+### Búsqueda básica
+```http
+GET /api/v1/faqs?organization_id=550ea8de-f522-4b39-a2c4-757fc2501ef1&search=cambios
+```
+
+### Por categoría y prioridad
+```http
+GET /api/v1/faqs?organization_id=550ea8de-f522-4b39-a2c4-757fc2501ef1&category=Cambios%20y%20Devoluciones&priority=high
+```
+
+### Búsqueda inteligente
+```http
+GET /api/v1/faqs/search?organization_id=550ea8de-f522-4b39-a2c4-757fc2501ef1&q=cómo%20cambiar%20boleto&limit=5
+```
+
+### FAQs públicas
+```http
+GET /api/v1/faqs?organization_id=550ea8de-f522-4b39-a2c4-757fc2501ef1&is_public=true&sort_by=priority&sort_order=desc
+```
+
+---
+## Responses
+### ✅ Success controlados
+#### 200 · OK - Consulta de FAQs
+```json
+{
+  "faqs": [
+    {
+      "id": "faq-123abc",
+      "question": "¿Cómo puedo cambiar mi boleto a otra fecha?",
+      "answer": "Para cambiar tu boleto de fecha, sigue estos pasos...",
+      "category": "Cambios y Devoluciones",
+      "tags": ["cambios", "fechas", "boleto", "reembolso"],
+      "priority": "high",
+      "is_public": true,
+      "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+      "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+      "related_faqs": ["faq-456"],
+      "metadata": {
+        "event_types": ["conciertos", "deportes"],
+        "language": "es",
+        "target_audience": "compradores"
+      },
+      "view_count": 150,
+      "helpful_count": 45,
+      "created_at": "2025-01-09T12:00:00Z",
+      "updated_at": "2025-01-09T12:00:00Z"
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "total_pages": 3,
+    "total_results": 45,
+    "has_next": true,
+    "has_prev": false
+  },
+  "categories": [
+    "Cambios y Devoluciones",
+    "Pagos",
+    "Eventos",
+    "Cuenta"
+  ]
+}
+```
+---
+#### 201 · Created - FAQ creada
+```json
+{
+  "faq": {
+    "id": "faq-123abc",
+    "question": "¿Cómo puedo cambiar mi boleto a otra fecha?",
+    "answer": "Para cambiar tu boleto de fecha, sigue estos pasos...",
+    "category": "Cambios y Devoluciones",
+    "tags": ["cambios", "fechas", "boleto", "reembolso"],
+    "priority": "high",
+    "is_public": true,
+    "organization_id": "550ea8de-f522-4b39-a2c4-757fc2501ef1",
+    "user_id": "969d3384-ae27-42ef-86b1-13a7c304738f",
+    "view_count": 0,
+    "helpful_count": 0,
+    "created_at": "2025-01-09T12:00:00Z",
+    "updated_at": "2025-01-09T12:00:00Z"
+  }
+}
+```
+---
+#### 200 · OK - Búsqueda inteligente
+```json
+{
+  "results": [
+    {
+      "faq": {
+        "id": "faq-123abc",
+        "question": "¿Cómo puedo cambiar mi boleto a otra fecha?",
+        "answer": "Para cambiar tu boleto de fecha, sigue estos pasos...",
+        "category": "Cambios y Devoluciones",
+        "priority": "high",
+        "relevance_score": 0.95
+      }
+    },
+    {
+      "faq": {
+        "id": "faq-456def",
+        "question": "¿Puedo devolver mi boleto si no puedo asistir?",
+        "answer": "Las políticas de devolución varían según el evento...",
+        "category": "Cambios y Devoluciones",
+        "priority": "medium",
+        "relevance_score": 0.87
+      }
+    }
+  ],
+  "search_metadata": {
+    "query": "cómo cambiar boleto",
+    "total_results": 2,
+    "search_time": 0.045,
+    "suggestions": [
+      "cambiar fecha del evento",
+      "modificar boleto",
+      "transferir boleto"
+    ]
+  }
+}
+```
+---
+### ❌ Errores controlados
+#### 400 · Bad Request
+Faltan campos obligatorios o datos inválidos.
+```json
+{
+  "status": "error",
+  "code": 400,
+  "message": "Missing required fields: question, answer, organization_id, user_id"
+}
+```
+---
+#### 401 · Unauthorized
+Token de autenticación inválido o ausente.
+```json
+{
+  "status": "error",
+  "code": 401,
+  "message": "Invalid or missing authentication token"
+}
+```
+---
+#### 403 · Forbidden
+Usuario no tiene permisos para la organización.
+```json
+{
+  "status": "error",
+  "code": 403,
+  "message": "Access denied: User is not a member of this organization"
+}
+```
+---
+#### 404 · Not Found
+FAQ no encontrada o no existe la organización.
+```json
+{
+  "status": "error",
+  "code": 404,
+  "message": "FAQ not found: faq-123abc"
+}
+```
+---
+#### 409 · Conflict
+Ya existe una FAQ con la misma pregunta.
+```json
+{
+  "status": "error",
+  "code": 409,
+  "message": "Duplicate question: '¿Cómo puedo cambiar mi boleto a otra fecha?' already exists"
+}
+```
+---
+#### 422 · Unprocessable Entity
+Contenido inapropiado o formato inválido.
+```json
+{
+  "status": "error",
+  "code": 422,
+  "message": "Invalid content: Question must be at least 10 characters long"
+}
+```
+---
+#### 500 · Internal Server Error
+Error inesperado en el servidor.
+```json
+{
+  "status": "error",
+  "code": 500,
+  "message": "Internal server error"
+}
+```
+---
+## Cómo usarlo
+<Steps>
+  <Step title="1 · Crea FAQ" icon="plus" iconType="solid">
+    Usa <strong>POST /api/v1/faqs</strong> con pregunta, respuesta y metadatos.
+  </Step>
+  <Step title="2 · Organiza por categorías" icon="folder" iconType="solid">
+    Agrupa FAQs relacionadas usando el campo <strong>category</strong>.
+  </Step>
+  <Step title="3 · Usa etiquetas" icon="tag" iconType="solid">
+    Agrega <strong>tags</strong> para mejorar la búsqueda y filtrado.
+  </Step>
+  <Step title="4 · Habilita búsqueda" icon="search" iconType="solid">
+    Usa <strong>GET /api/v1/faqs/search</strong> para búsqueda inteligente.
+  </Step>
+</Steps>
+---
+<Tip>
+Usa <strong>is_public: true</strong> para FAQs que deben estar disponibles públicamente sin autenticación.
+</Tip>
+---
+<Warning>
+Las preguntas deben ser únicas por organización. Si intentas duplicar una pregunta, recibirás un error 409.
+</Warning>
