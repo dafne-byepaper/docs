@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "SiJalo",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#ff0084",
+    "light": "#ff0084",
+    "dark": "#ff0084"
   },
   "favicon": "/favicon.png",
   "navigation": {
@@ -69,6 +69,14 @@
               "organizador/Agregar-Productos",
               "organizador/Agregar-ubicaciones",
               "organizador/Agregar-Patrocinadores"
+            ]
+
+            
+          },
+          {
+            "group": "Consultas",
+            "pages": [
+              "organizador/multi-divisa"
             ]
 
             
