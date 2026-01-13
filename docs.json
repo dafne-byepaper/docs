@@ -94,7 +94,8 @@
             "group": "Consultas",
             "pages": [
               "organizador/multi-divisa",
-              "organizador/Reglas-de-Descuentos"
+              "organizador/Reglas-de-Descuentos",
+              "organizador/Gestion-de-números-de-Competidores"
             ]
 
             
