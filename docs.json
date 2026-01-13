@@ -16,9 +16,26 @@
           {
             "group": "Empieza con SiJalo",
             "pages": [
-              "index"
+              "Cliente/Primeros-pasos"
+            ]
+          },
+          {
+            "group": "Conoce tu plataforma",
+            "pages": [
+            ]
+          },
+          {
+            "group": "Consultas sobre tu cuenta",
+            "pages": [
+            ]
+          },
+          {
+            "group": "Acciones de la plataforma",
+            "pages": [
+              "Cliente/Como-inscribirte-a-un-evento"
             ]
           }
+
         ]
       },
       {
@@ -42,7 +59,7 @@
           {
             "group": "Empieza en SiJalo Organizador",
             "pages": [
-              "organizador/Primeros-pasos",
+              "organizador/Primeros-pasos-organizador",
               "organizador/Creación-de-Eventos"
 
             ]
