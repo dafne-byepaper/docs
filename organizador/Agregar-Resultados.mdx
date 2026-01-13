@@ -1,0 +1,156 @@
+---
+title: "Agregar Resultados de Eventos"
+description: "Aquí podras ver el paso a paso de como agregar resultados a tu evento"
+---
+
+## ¿Qué es la Gestión de Resultados?
+
+La gestión de resultados te permite registrar, organizar y publicar los resultados de los participantes en tus eventos. Puedes agregar resultados manualmente uno por uno o importarlos masivamente desde archivos CSV.
+
+## Métodos para Agregar Resultados
+
+### **1. Agregar Manualmente**
+- **Descripción:** Ingresa resultados uno por uno mediante un formulario
+- **Uso ideal:** Eventos pequeños, correcciones, resultados parciales
+- **Ventajas:** Control total, validación inmediata, edición fácil
+
+### **2. Importar desde CSV**
+- **Descripción:** Sube un archivo con múltiples resultados
+- **Uso ideal:** Eventos grandes, resultados oficiales, integración con sistemas de timing
+- **Ventajas:** Proceso rápido, manejo masivo, menos errores
+
+<Note>
+   Nosotros contamos con nuestra propia plantilla de CSV para poder facilitar el llenado de resultados, el cual podras descargar desde la Gestión de Resultados del evento. En la sección de Importar CSV.
+</Note>
+
+---
+
+## Agregar Resultados Manualmente
+
+### **Paso 1: Acceder a la Gestión de Resultados**
+
+1. **Dirigete a la sección de Eventos** desde el panel de organizador
+2. **Busca el evento** que deseas agregar resultados
+3. **Haz click sobre el icono de un trofeo** Es el icono de un trofeo que se encuentra en la parte inferior de la tarjeta de tu evento
+
+### **Paso 2: Abrir el Formulario de Agregar Resultado y completar los campos**
+
+- Número de dorsal
+- Estado
+- Nombre del participante
+- Email del participante
+- Tiempo oficial
+- Tiempo chip
+- Categoría del evento
+
+#### **Estados Disponibles**
+
+**Opciones de estado:**
+- **Oficial:** Resultado validado y final
+- **No oficial:** Resultado pendiente de validación
+- **Descalificado:** Participante descalificado
+- **DNF (Did Not Finish):** No terminó la competencia
+- **DNS (Did Not Start):** No inició la competencia
+
+#### **Tiempos de Competencia**
+
+**Campos de tiempo:**
+- **Tiempo oficial:** Tiempo cronometrado oficial
+- **Tiempo chip:** Tiempo medido por chip (preferido para cálculos)
+
+<Note>
+    **Importante:** Las posiciones se calculan automáticamente basándose en el tiempo chip (prioritario) o tiempo oficial. No necesitas ingresar las posiciones manualmente.
+</Note>
+
+#### **Categorización**
+
+**Opciones de categoría:**
+- **Seleccionar del dropdown:** Usa categorías predefinidas
+- **Sin categoría:** Si no aplica categorización
+- **Categorías disponibles:** Las que configuraste en tu evento
+
+### **Paso 4: Guardar el Resultado**
+
+**Acciones disponibles:**
+- **Guardar:** Agrega el nuevo resultado
+- **Cancelar:** Cierra el formulario sin guardar
+- **Actualizar:** Si estás editando un resultado existente
+
+<Warning>
+    Al guardar, el sistema recalculará automáticamente todas las posiciones basadas en los nuevos tiempos.
+</Warning>
+
+---
+
+## Importación Masiva desde CSV
+
+### **Paso 1: Preparar el Archivo CSV**
+
+#### **Formato del Archivo**
+
+**Columnas estándar:**
+```csv
+position,bib_number,name,category,category_position,finish_time,chip_time,status
+1,101,Juan Pérez,Varones,1,01:23:45,01:23:40,official
+2,102,María García,Damas,1,01:45:30,01:45:25,official
+```
+
+**Columnas personalizadas (eventos multidisciplina):**
+```csv
+position,bib_number,name,category,finish_time,chip_time,swim_time,bike_time,run_time,status
+1,101,Carlos Triatlon,Elite,02:15:30,02:15:25,00:25:00,01:10:00,00:40:30,official
+```
+
+#### **Plantillas por Tipo de Evento**
+
+**Carrera de Atletismo:**
+```csv
+position,bib_number,name,category,finish_time,chip_time,pace,status
+1,101,Ana Veloz,Femenino,00:45:20,00:45:18,03:36/km,official
+```
+
+**Triatlón:**
+```csv
+position,bib_number,name,category,finish_time,chip_time,swim_time,t1_time,bike_time,t2_time,run_time,status
+1,101,María Triatlon,Elite,02:30:15,02:30:10,00:28:00,00:05:00,01:25:00,00:04:00,00:28:15,official
+```
+
+**Natación:**
+```csv
+position,bib_number,name,category,finish_time,chip_time,laps,points,status
+1,101,Laura Natación,Master,00:58:30,00:58:28,20,100,official
+```
+
+### **Paso 2: Subir el Archivo**
+
+**Proceso de subida:**
+1. **Haz clic** en "Importar CSV"
+2. **Arrastra o selecciona** tu archivo CSV
+3. **Espera** la validación del formato
+4. **Revisa** la vista previa de datos
+
+### **Paso 3: Mapear Columnas**
+
+**Mapeo automático:**
+- El sistema intenta mapear columnas automáticamente
+- Verifica que los datos se vean correctos
+- Ajusta manualmente si es necesario
+
+**Validaciones durante mapeo:**
+- **Formato de tiempo:** HH:MM:SS o MM:SS
+- **Números:** Posiciones y dorsales numéricos
+- **Estados:** Valores válidos de estado
+- **Duplicados:** Sin números de dorsal repetidos
+
+### **Paso 4: Confirmar Importación**
+
+**Antes de importar:**
+- **Revisa el resumen:** Total de registros a importar
+- **Verifica errores:** Corrige problemas detectados
+- **Confirma datos:** Asegúrate que todo sea correcto
+
+**Durante la importación:**
+- **Progreso en tiempo real:** Barra de progreso
+- **Validación continua:** Chequeo de datos
+- **Notificaciones:** Éxitos y errores
+
