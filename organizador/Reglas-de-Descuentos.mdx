@@ -1,0 +1,157 @@
+---
+title: Reglas de Descuentos
+description: Aquí detallaremos las reglas de los descuentos y como interactuaran con los productos y boletos.
+---
+
+## ¿Cómo Funcionan los Descuentos?
+
+Los descuentos en SiJalo siguen una lógica específica para garantizar transparencia y consistencia en todas las transacciones. Entiende cómo interactúan entre sí y con los precios especiales.
+
+## Tipos de Descuentos Disponibles
+
+### **1. Descuentos por Porcentaje (%)**
+- **Aplicación:** Reducen el precio actual en un porcentaje
+- **Ejemplo:** 15% de descuento en un producto de 100mxn = 85mxn
+- **Uso común:** Promociones generales, descuentos por temporada
+
+### **2. Descuentos por Monto Fijo ($)
+- **Aplicación:** Reducen el precio en una cantidad específica
+- **Ejemplo:** 20mxn de descuento en un producto de 100mxn = 80mxn
+- **Uso común:** Cupones específicos, descuentos de lealtad
+
+### **3. Precios Early Bird**
+- **Aplicación:** Precios especiales por tiempo limitado
+- **Configuración:** Fecha de inicio y fin, límite de cantidad
+- **Uso común:** Ventas anticipadas, inscripciones tempranas
+
+## Reglas de Precedencia y Combinación
+
+### **Orden de Aplicación de Descuentos**
+
+#### **Paso 1: Precios Base**
+- **Precio normal:** Precio estándar del producto
+- **Precio Early Bird:** Si está activo y dentro del rango de fechas
+
+#### **Paso 2: Descuentos por Monto Fijo**
+- **Prioridad:** Se aplican PRIMERO
+- **Orden:** Mayor a menor monto
+- **Lógica:** Se restan directamente del precio base
+
+#### **Paso 3: Descuentos por Porcentaje**
+- **Prioridad:** Se aplican DESPUÉS de los fijos
+- **Orden:** Mayor a menor porcentaje
+- **Lógica:** Se calculan sobre el monto restante
+
+### **Ejemplo Práctico:**
+
+**Producto:** $500 MXN
+**Descuentos aplicados:**
+- Early Bird: $450 MXN (dentro de fecha válida)
+- Cupón fijo: -$50 MXN
+- Cupón porcentaje: -10%
+
+**Cálculo:**
+1. **Precio base:** $450 MXN (Early Bird activo)
+2. **Menos descuento fijo:** $450 - $50 = $400 MXN
+3. **Menos descuento porcentaje:** $400 × 0.90 = $360 MXN
+4. **Precio final:** $360 MXN
+
+## Reglas Especiales y Limitaciones
+
+### **Reglas de Early Bird**
+
+#### **Activación Automática**
+- **Fecha de inicio:** Solo se activa después de la fecha configurada
+- **Fecha de fin:** Se desactiva automáticamente al terminar
+- **Límite de cantidad:** Se respeta el límite configurado
+
+#### **Compatibilidad**
+- **Compatible con cupones:** Se puede combinar con otros descuentos
+- **Prioridad base:** Sirve como precio inicial para otros cálculos
+- **No acumulable:** Solo un precio Early Bird por producto
+
+#### **Validaciones**
+- **Fechas obligatorias:** Debe tener fecha de inicio y fin
+- **Límite opcional:** Puede tener límite de unidades
+- **Sincronización:** Se sincroniza con eventos asignados
+
+### **Reglas de Cupones**
+
+#### **Aplicación Múltiple**
+- **Múltiples cupones:** Se pueden aplicar varios códigos
+- **Combinación de tipos:** Fijos + porcentajes
+- **Orden automático:** El sistema ordena por precedencia
+
+#### **Limitaciones por Usuario**
+- **Límite por usuario:** Configurable por cupón
+- **Uso único:** Puede ser de un solo uso
+- **Límite global:** Límite total de usos del cupón
+
+#### **Restricciones Temporales**
+- **Válido desde:** Fecha de activación del cupón
+- **Válido hasta:** Fecha de expiración
+- **Validación automática:** Sistema verifica fechas
+
+## Escenarios No Permitidos
+
+### **Combinaciones Bloqueadas**
+
+#### **Early Bird Múltiple**
+- **No permitido:** Más de un precio Early Bird por producto
+- **No permitido:** Early Bird solapados en tiempo
+- **Permitido:** Early Bird + cupones normales
+
+#### **Descuentos Negativos**
+- **No permitido:** Total menor a $0
+- **Permitido:** Total igual a $0 (gratis)
+- **Permitido:** Descuentos que cubren el total
+
+#### **Aplicación Inconsistente**
+- **No permitido:** Cupón fuera de fecha válida
+- **No permitido:** Exceder límite de usos
+- **No permitido:** Aplicar a productos no asignados
+
+## Ejemplos de Escenarios Comunes
+
+### **Escenario 1: Inscripción Temprana con Cupón**
+
+**Configuración:**
+- Precio normal: $1000 MXN
+- Early Bird: $800 MXN (vigente)
+- Cupón: -$100 MXN fijo
+- Cupón: -5% adicional
+
+**Cálculo:**
+1. **Base:** $800 MXN (Early Bird)
+2. **Menos fijo:** $800 - $100 = $700 MXN
+3. **Menos porcentaje:** $700 × 0.95 = $665 MXN
+4. **Final:** $665 MXN
+
+### **Escenario 2: Múltiples Cupones sin Early Bird**
+
+**Configuración:**
+- Precio normal: $500 MXN
+- Cupón 1: -$50 MXN fijo
+- Cupón 2: -$30 MXN fijo
+- Cupón 3: -10% porcentaje
+
+**Cálculo:**
+1. **Base:** $500 MXN
+2. **Menos fijo mayor:** $500 - $50 = $450 MXN
+3. **Menos fijo menor:** $450 - $30 = $420 MXN
+4. **Menos porcentaje:** $420 × 0.90 = $378 MXN
+5. **Final:** $378 MXN
+
+### **Escenario 3: Límite de Descuento**
+
+**Configuración:**
+- Precio normal: $200 MXN
+- Cupón fijo: -$250 MXN (excede el precio)
+- Cupón porcentaje: -50%
+
+**Cálculo:**
+1. **Base:** $200 MXN
+2. **Menos fijo limitado:** $200 - $200 = $0 MXN (no puede ser negativo)
+3. **Menos porcentaje:** $0 × 0.50 = $0 MXN
+4. **Final:** $0 MXN (gratis)
+
