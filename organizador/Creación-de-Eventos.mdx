@@ -286,7 +286,86 @@ description : "Aquí se podrá observar el procedimiento para poder crear y publ
             </Accordion>
 
             <Accordion
-                title="Productos">
+                title= "Número de Competidores">
+                ### Número de Competidores
+
+                Aqui podras Asignar números únicos a cada participante con una númeración automática. Esta función es opcional aunque muy útil para la organización de Eventos Deportivos.
+
+                ### Métodos de Numeración
+
+                Una vez activada la opción de numeración automatica podrás escoger entre dos métodos de numeración.
+                    <Tip>
+                        ¿Cómo funciona? Los números se asignarán automáticamente cuando un participante complete su inscripción. Podrás ver y modificar los números asignados en la sección de gestión de asistentes.
+                    </Tip>
+                
+                <AccordionGroup>
+                    <Accordion
+                        title="Secuencial">
+                        ### Secuencial Simple
+                        Todos los participantes reciben un número consecutivo sin importar su categoría.
+                        <Note>
+                            Podrás seleccionar el número desde el cual comenzará la numeración
+                        </Note>
+                        
+                    </Accordion>
+                    <Accordion
+                        title="Por Categoría">
+                        ### Por Categoría
+                        Cada categoría tiene su propio prefijo y secuencia numérica independiente.
+
+                        <Note>
+                            Podrás seleccionar el número desde el cual comenzará la numeración
+                        </Note>                        
+                    </Accordion>
+
+
+                </AccordionGroup>
+
+            
+                
+            </Accordion>
+
+            <Accordion
+                title="Configuración de Hits">
+                ### Configuración de Hits
+                <Tip>
+                    Los hits permiten dividir tu competencia en múltiples rondas cuando hay limitaciones de capacidad. Ideal para carreras, competencias deportivas y eventos con muchos participantes.
+                </Tip>
+
+                ### Configuración Básica de Hits
+
+                - Número Total de Hits
+                - Participantes por Hit
+                - Patrón de Nombres (Usa {number} donde quieras que aparezca el número del hit)
+
+                ### Configuración de Ubicaciones
+                puedes seleccionar si cada Hit tendra su propia ubicación o si todos los hits comparten la misma ubicación.
+                ### Configuración de Tiempos
+                Aqui podras confirurar la duración aproximada por hit en minutos y también el Descanso aproximado entre Hits en minutos.
+
+                ### Estrategia de Distribución
+                Aqui podras configurar como se arman los Hits
+                - Secuencial (Por orden de registro)
+                - Aleatorio
+                - Por Ranking/Semilla
+                - Por Categoría
+
+                También podras habilitar que los Hits sean especificos por categoría. y que se generen hits de forma automáticamente al registrarse los participantes en el Evento.
+
+                ### Vista Previa
+                Aquí podras visualizar todas las configuraciónes que se realizaron de los Hits para que puedas verificar que todo esté correcto.
+                Podras Verificar los siguientes Datos:
+                - Hit
+                - Cantidad de Participantes por hit
+                - Duración aproximada por hit
+                - Ubicación
+                
+
+                
+            </Accordion>
+            
+            <Accordion
+                title="Configuración de Productos">
                 ### Configuración de Productos
                 En cada evento puedes vender productos como:
                 - Boletos ( ej. Básico, VIP, etc)
