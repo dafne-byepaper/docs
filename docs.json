@@ -72,7 +72,6 @@
               "organizador/Dashboard",
               "organizador/Informes",
               "organizador/Eventos",
-              "organizador/Descuentos",
               "organizador/Patrocinadores",
               "organizador/Cobranza",
               "organizador/Configuración"
@@ -81,7 +80,7 @@
           {
             "group": "Agregar",
             "pages": [
-              "organizador/Agregar-Descuentos",
+              
               "organizador/Agregar-Miembros",
               "organizador/Agregar-Metodo-de-Cobro",
               "organizador/Agregar-Productos",
@@ -93,10 +92,17 @@
             
           },
           {
+            "group": "Funcionamiento de Descuentos",
+            "pages": [
+              "organizador/Agregar-Descuentos",
+              "organizador/Descuentos",
+              "organizador/Reglas-de-Descuentos"
+            ]
+          },
+          {
             "group": "Consultas",
             "pages": [
               "organizador/multi-divisa",
-              "organizador/Reglas-de-Descuentos",
               "organizador/Gestion-de-números-de-Competidores",
               "organizador/Gestión-de-MSI"
             ]
