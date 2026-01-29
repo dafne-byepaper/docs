@@ -61,8 +61,14 @@
             "group": "Empieza en SiJalo Organizador",
             "pages": [
               "organizador/Primeros-pasos-organizador",
-              "organizador/Creación-de-Eventos"
-
+              
+            ]
+          },
+          {
+            "group": "Creación de Eventos",
+            "pages": [
+              "organizador/Creación-de-Eventos",
+              "organizador/Gestion-de-números-de-Competidores"
             ]
           },
           {
@@ -103,7 +109,6 @@
             "group": "Consultas",
             "pages": [
               "organizador/multi-divisa",
-              "organizador/Gestion-de-números-de-Competidores",
               "organizador/Gestión-de-MSI"
             ]
 
