@@ -1,0 +1,123 @@
+---
+title: Google Tracking
+description: Aprende a configurar Google Analytics y Google Tag Manager en tu organización de SiJalo para rastrear el comportamiento de tus participantes.
+---
+
+Con Google Tracking puedes conectar tu cuenta de **Google Analytics (GA4)** o **Google Tag Manager (GTM)** a tu organización en SiJalo. Esto te permite rastrear visitas, conversiones e inscripciones a tus eventos.
+
+---
+
+## ¿Qué necesitas antes de empezar?
+
+<CardGroup cols={2}>
+  <Card title="Cuenta de Google Analytics" icon="chart-line">
+    Una propiedad GA4 activa con acceso de administrador
+  </Card>
+  <Card title="Cuenta de Google Tag Manager" icon="tag">
+    Un contenedor GTM creado (opcional, si prefieres usarlo en lugar de GA4 directo)
+  </Card>
+</CardGroup>
+
+---
+
+## Opción 1 — Configurar Google Analytics (GA4)
+
+### Paso 1: Obtén tu Measurement ID
+
+1. Inicia sesión en [Google Analytics](https://analytics.google.com)
+2. Selecciona tu propiedad o crea una nueva
+3. Ve a **Administrar** (ícono de engranaje, esquina inferior izquierda)
+4. En la columna **Propiedad**, haz clic en **Flujos de datos**
+5. Selecciona tu flujo web
+6. Copia el **ID de medición** — tiene el formato `G-XXXXXXXXXX`
+
+<Info>
+  Si aún no tienes una propiedad de GA4, crea una nueva en Google Analytics eligiendo **"Crear propiedad"** y configurando un flujo de datos de tipo **Web**.
+</Info>
+
+### Paso 2: Agrega el ID en SiJalo Organizador
+
+1. Ingresa a tu panel en **SiJalo Organizador**
+2. En el menú lateral, ve a **Configuración**
+3. Busca la sección **Integraciones** o **Google Tracking**
+4. En el campo **Google Analytics Measurement ID**, pega tu ID (`G-XXXXXXXXXX`)
+5. Haz clic en **Guardar**
+
+<Check>
+  Una vez guardado, SiJalo comenzará a enviar eventos de página vista e inscripciones a tu propiedad de GA4 automáticamente.
+</Check>
+
+---
+
+## Opción 2 — Configurar Google Tag Manager (GTM)
+
+### Paso 1: Obtén tu GTM Container ID
+
+1. Ingresa a [Google Tag Manager](https://tagmanager.google.com)
+2. Selecciona o crea un contenedor de tipo **Web**
+3. En la pantalla principal del contenedor verás tu **Container ID** con el formato `GTM-XXXXXXX`
+4. Cópialo
+
+### Paso 2: Agrega el ID en SiJalo Organizador
+
+1. Ve a **Configuración** en tu panel de SiJalo Organizador
+2. Busca la sección **Integraciones** o **Google Tracking**
+3. En el campo **Google Tag Manager ID**, pega tu Container ID (`GTM-XXXXXXX`)
+4. Haz clic en **Guardar**
+
+<Info>
+  Si usas GTM, desde el contenedor puedes gestionar múltiples etiquetas (GA4, Meta Pixel, conversiones, etc.) sin necesidad de volver a editar la configuración en SiJalo.
+</Info>
+
+---
+
+## Verificar que el tracking funciona
+
+### Con Google Analytics
+
+1. Abre **Google Analytics** y ve a **Informes → Tiempo real**
+2. En otra pestaña, visita la página pública de tu evento en SiJalo
+3. Si el tracking está activo, verás la visita reflejada en el informe en tiempo real en menos de 30 segundos
+
+### Con Google Tag Manager
+
+1. En tu contenedor GTM, haz clic en **Vista previa** (Preview)
+2. Ingresa la URL de tu evento en SiJalo y haz clic en **Connect**
+3. El panel de Tag Assistant mostrará qué etiquetas se están disparando en cada página
+
+<Warning>
+  Si instalaste tanto GA4 directo como GTM, asegúrate de no duplicar el tracking. Configura GA4 **dentro de GTM** y deja vacío el campo de GA4 en SiJalo para evitar contar dos veces las visitas.
+</Warning>
+
+---
+
+## Eventos que SiJalo registra automáticamente
+
+| Evento | Descripción |
+|--------|-------------|
+| `page_view` | Cada vez que alguien visita la página de tu evento |
+| `begin_checkout` | Cuando un participante inicia el proceso de inscripción |
+| `purchase` | Cuando se completa una inscripción exitosamente |
+| `sign_up` | Cuando un usuario nuevo crea su cuenta desde tu evento |
+
+---
+
+## Preguntas frecuentes
+
+<AccordionGroup>
+  <Accordion title="¿Puedo usar GA4 y GTM al mismo tiempo?">
+    No es recomendable. Si usas GTM, configura GA4 dentro del contenedor de GTM y deja el campo de GA4 vacío en SiJalo. Usar ambos duplicaría los datos en tus reportes.
+  </Accordion>
+
+  <Accordion title="¿Cuánto tiempo tarda en aparecer la información en Google Analytics?">
+    Los datos en tiempo real aparecen en segundos. Los informes estándar y de conversión pueden tardar entre 24 y 48 horas en procesarse completamente.
+  </Accordion>
+
+  <Accordion title="¿El tracking funciona en todos mis eventos?">
+    Sí, una vez configurado el tracking a nivel de organización, aplica automáticamente a todos tus eventos activos en SiJalo.
+  </Accordion>
+
+  <Accordion title="¿Necesito aceptación de cookies de mis participantes?">
+    Sí. Si tus participantes están en México, Europa (GDPR) u otras regiones con regulaciones de privacidad, debes informarles sobre el uso de cookies de rastreo. Consulta con tu equipo legal la mejor forma de implementar el aviso de consentimiento.
+  </Accordion>
+</AccordionGroup>
