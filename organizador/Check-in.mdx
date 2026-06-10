@@ -1,0 +1,285 @@
+---
+title: Check-in de organizador
+description: Guía completa para operar el sistema de check-in desde la pantalla de organizador, dispositivos móviles y configuración de grupos.
+---
+
+## Vista general del sistema
+
+El sistema de check-in opera en tres capas:
+
+| Capa | Descripción |
+|------|-------------|
+| **Pantalla de organizador** | Búsqueda, escaneo QR, check-in/cancelación por ítem y modo supervisor en vivo |
+| **Gestión de grupos/dispositivos** | Grupos con permisos, vigencia, alcance por disciplina/producto y PINs únicos |
+| **Portal móvil** | Acceso por magic link + PIN, geolocalización obligatoria, escaneo continuo QR |
+
+---
+
+## Requisitos previos
+
+Antes de operar el check-in asegúrate de tener:
+
+- Usuario organizador con membresía activa en la organización de la serie/evento.
+- Serie y/o evento con asistentes y productos cargados.
+- Ítems de check-in configurados y habilitados.
+
+Para operación por dispositivos móviles adicionalmente necesitas:
+
+- Grupo activo dentro de su ventana de vigencia.
+- Al menos un dispositivo activo con PIN (4–6 dígitos).
+- Magic link vigente y no revocado.
+
+<Note>
+  Recomendamos que cada dispositivo cuente con cámara funcional, batería suficiente o powerbank, conexión estable y permisos de ubicación habilitados.
+</Note>
+
+---
+
+## Flujo A: operación desde pantalla de organizador
+
+### 1. Entrar al módulo
+
+Abre la pantalla de check-in del evento o serie. Verás métricas de total de asistentes, check-ins realizados y pendientes. Si necesitas monitoreo en tiempo real, activa el **modo supervisor** para visualización en vivo.
+
+### 2. Buscar o escanear
+
+Localiza al asistente de cualquiera de estas formas:
+
+- Búsqueda por nombre, email, teléfono, ID público o número de competidor.
+- Escáner QR para localización rápida.
+
+### 3. Trabajar desde el modal del asistente
+
+Al abrir el perfil del asistente encontrarás la sección **Ítems de check-in**, donde cada ítem tiene acción directa de check-in. Si el ítem ya está marcado, se muestra su estado y timestamp. Si la cancelación está habilitada, se requiere motivo para revertir.
+
+### 4. Check-in y cancelación por ítem
+
+- **Check-in por ítem:** guarda el estado actual y genera un evento de auditoría.
+- **Cancelación por ítem:** requiere motivo no vacío, registra un evento `check_out`. Si el ítem es un ticket, puede impactar el estado general de asistencia del participante.
+
+### 5. Timeline y detalle
+
+El timeline muestra todos los eventos (`item` y `summary`) en orden temporal, incluyendo la fuente (manual o QR), el usuario que realizó la acción y metadata disponible.
+
+---
+
+## Flujo B: configuración de grupos y dispositivos
+
+### 1. Crear o editar un grupo
+
+Configura los siguientes campos en cada grupo:
+
+- Nombre y descripción.
+- Estado activo/inactivo.
+- Vigencia desde/hasta.
+- Ítems permitidos y secciones visibles.
+- Permisos: **Permitir búsqueda** y **Permitir cancelar check-in**.
+
+### 2. Configurar el alcance (scope) exclusivo
+
+Debes elegir **solo un modo** de alcance; no se pueden mezclar ambos tipos:
+
+| Modo | Filtros que usa |
+|------|----------------|
+| **Disciplina + Categorías** | `discipline_ids`, `category_ids`, `event_ids` |
+| **Productos + Variantes** | `product_ids`, `product_variant_ids` |
+
+<Warning>
+  Al cambiar de modo, el conjunto de filtros del modo anterior se limpia automáticamente para evitar mezclas de alcance.
+</Warning>
+
+### 3. Alta de dispositivos
+
+**En grupo nuevo:**
+1. Define la cantidad de teléfonos.
+2. Genera los dispositivos de una sola vez.
+3. Cada dispositivo queda con nombre, descripción opcional y PIN auto-generado (editable antes de guardar).
+
+**En grupo existente:**
+- Agregar dispositivo nuevo manualmente.
+- Activar o desactivar dispositivo.
+- Editar PIN o regenerarlo.
+- Eliminar dispositivo.
+
+### 4. Reglas de PIN y capacidad
+
+- PIN obligatorio de **4 a 6 dígitos numéricos**.
+- No se permiten PINs repetidos dentro del mismo grupo.
+- La validación ocurre en frontend, backend e índice único en base de datos.
+- `max_devices` limita las sesiones activas concurrentes del grupo.
+
+### 5. Magic link y regeneración
+
+Cada grupo tiene un link del tipo `/checkin/portal/{token}`.
+
+Al **regenerar** el token:
+- Se crea un nuevo acceso para el grupo.
+- Se invalidan todas las sesiones activas previas del grupo.
+
+<Warning>
+  Regenerar el link desconecta a todos los dispositivos con sesión activa. Coordina con tu staff antes de hacerlo durante el evento.
+</Warning>
+
+---
+
+## Flujo C: operación en portal móvil
+
+### 1. Acceso inicial
+
+1. Abre el magic link del grupo en el navegador del dispositivo.
+2. Ingresa el PIN del dispositivo asignado.
+3. Si el PIN es válido, se crea una sesión con expiración y se guarda el token en el navegador.
+
+### 2. Condiciones que bloquean el acceso
+
+El portal rechaza el ingreso si:
+
+- El link no existe, fue revocado o expiró.
+- El grupo está inactivo o fuera de su ventana de vigencia.
+- El dispositivo está inactivo.
+- El PIN es incorrecto.
+- Se alcanzó el límite `max_devices`.
+- El PIN ya tiene una sesión activa en otro dispositivo.
+
+### 3. Ubicación y arranque del escaneo
+
+El portal **exige geolocalización** para operar. Sin permisos de ubicación se muestra un bloqueo con opción de reintento. Una vez concedida la ubicación, inicia el escaneo QR continuo.
+
+### 4. Resultados de escaneo y estados visuales
+
+| Estado | Significado |
+|--------|-------------|
+| `success_completed` | Check-in aplicado correctamente |
+| `partial_completed` | Completó los ítems faltantes desde estado parcial |
+| `partial_confirm_required` | Requiere confirmación para completar ítems parciales |
+| `item_selection_required` | Requiere elegir ítems antes de aplicar |
+| `already_checked_in` | El asistente ya tenía check-in completo |
+| `out_of_scope` | Asistente fuera del alcance del grupo |
+| `invalid_target` | Configuración o selección inválida |
+| `not_found` | QR sin asistente asociado |
+
+### 5. Confirmación por selección de ítems
+
+Cuando hay múltiples ítems pendientes y el flujo lo requiere:
+
+1. Se abre un paso de selección de ítems.
+2. Marca o desmarca los ítems a aplicar.
+3. **Confirmar** aplica solo la selección activa.
+4. **Cancelar** regresa sin realizar cambios.
+
+<Note>
+  Una selección vacía al confirmar se rechaza con estado `invalid_target`.
+</Note>
+
+### 6. Ver info, notas y búsqueda
+
+- **Ver info:** abre el detalle del asistente según las `visible_sections` configuradas en el grupo.
+- **Guardar nota:** registra un evento de auditoría asociado al asistente.
+- **Búsqueda:** solo aparece si el grupo tiene `allow_search = true`.
+
+---
+
+## Reglas de negocio clave
+
+| Regla | Detalle |
+|-------|---------|
+| Alcance exclusivo | Solo un `scope_mode` activo por grupo; los filtros del otro modo se limpian |
+| "Ya checkeado" | Se determina por estado item-level (`pendingItemIds` vacío) |
+| Parciales | Si hay ítems ya marcados + pendientes, puede requerirse confirmación |
+| Selección vacía | Se rechaza con `invalid_target` |
+| Add-ons | Solo se muestran y aplican si el asistente los compró |
+
+---
+
+## Auditoría y trazabilidad
+
+### Tablas de estado y eventos
+
+- **`attendee_checkin_states`:** estado actual por par `(order_item_id, checkin_item_id)`.
+- **`attendee_checkin_events`:** historial append-only de todas las acciones (item y summary).
+
+### Campos clave registrados en cada evento de escaneo
+
+| Campo | Descripción |
+|-------|-------------|
+| `scanner_device_name` | Nombre del dispositivo que escaneó |
+| `scanner_group_name` | Nombre del grupo |
+| `scanner_group_id` | ID del grupo |
+| `scan_result` | Resultado del escaneo |
+| `scan_items_result` | Detalle por ítem (JSONB) |
+| `scan_metadata` | QR, ubicación y datos adicionales (JSONB) |
+| `device_info` | Información del dispositivo |
+| `actor_user_id` | Usuario que ejecutó la acción |
+| `source` | Fuente: `manual` o `qr` |
+| `notes` | Notas opcionales |
+| `created_at` | Timestamp del evento |
+
+---
+
+## Troubleshooting operativo
+
+<AccordionGroup>
+
+<Accordion title="Link inválido, revocado o expirado">
+  1. Ir a la configuración del grupo.
+  2. Regenerar el token del magic link.
+  3. Compartir el nuevo link con el staff y pedir que lo abran nuevamente.
+</Accordion>
+
+<Accordion title="PIN incorrecto o dispositivo inactivo">
+  1. Verificar el PIN actual del dispositivo en la configuración del grupo.
+  2. Confirmar que el dispositivo esté en estado activo.
+</Accordion>
+
+<Accordion title="Límite de dispositivos alcanzado">
+  1. Cerrar sesión en otros dispositivos o revocarlas desde el panel.
+  2. Ajustar `max_devices` del grupo si se necesitan más sesiones simultáneas.
+</Accordion>
+
+<Accordion title="Grupo fuera de ventana de uso">
+  1. Revisar los campos **Vigencia desde/hasta** en la configuración del grupo.
+  2. Confirmar que la hora local y zona horaria del evento sean correctas.
+</Accordion>
+
+<Accordion title="QR no encontrado">
+  1. Verificar que el QR corresponda a un asistente del evento o serie correcto.
+  2. Probar búsqueda manual por nombre, email o ID público.
+</Accordion>
+
+<Accordion title="Asistente fuera de alcance">
+  1. Revisar el `scope_mode` y los filtros activos del grupo.
+  2. Confirmar que el asistente pertenece a la disciplina/categoría o producto/variante configurados.
+</Accordion>
+
+<Accordion title="Check-in parcial no completa">
+  1. Verificar que se seleccionaron los ítems pendientes en el paso de confirmación.
+  2. Revisar permisos del grupo y el estado previo del asistente.
+</Accordion>
+
+<Accordion title="No aparece el botón de búsqueda en el portal">
+  Verificar que la opción **Permitir búsqueda** esté activada en la configuración del grupo.
+</Accordion>
+
+</AccordionGroup>
+
+---
+
+## Buenas prácticas operativas
+
+### Antes del evento
+
+- Validar la configuración de ítems y alcances por cada grupo.
+- Realizar un check-in de prueba de punta a punta por cada grupo.
+- Confirmar PINs y magic links con el staff asignado.
+
+### Durante el evento
+
+- Operar por zonas usando grupos y dispositivos separados.
+- Usar descripciones claras por dispositivo (ej. "Acceso norte", "Acceso sur").
+- Monitorear parciales y `out_of_scope`; ajustar filtros si hubo error de configuración.
+
+### Cierre del evento
+
+- Revisar el timeline y los eventos para auditoría final.
+- Regenerar los magic links si los dispositivos se reutilizarán en otro evento.
+- Desactivar grupos y dispositivos que ya no sean necesarios.

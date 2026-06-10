@@ -106,6 +106,12 @@
             ]
           },
           {
+            "group": "Check-in",
+            "pages": [
+              "organizador/Check-in"
+            ]
+          },
+          {
             "group": "Consultas",
             "pages": [
               "organizador/multi-divisa",
@@ -113,7 +119,7 @@
               "organizador/Google-Tracking"
             ]
 
-            
+
           }
         ]
       }
